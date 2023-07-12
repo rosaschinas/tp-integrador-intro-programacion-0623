@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TP Integrador Estadísticas</title>
+
+    <link rel="stylesheet" href="styles/tp-int-page.css">
+    <link rel="stylesheet" href="styles/tp-int-menu.css">
+    <link rel="stylesheet" href="styles/tp-int-table.css">
+
+</head>
+
+<body>
+
+    <div class="content">
+
+        <header>
+            <img src="img/ic-head2019.png" alt="Logo Institucion Cervantes">
+        </header>
+
+        <Aside>
+
+            <nav class="menu">
+                <h4>Menú</h4>
+                <a href="tp-int-ingreso.html">Ingreso de datos</a>
+                <a href="tp-int-listado.html">Listado de Datos</a>
+                <a href="tp-int-estadisticas.html">Estadísticas de Datos</a>
+                <a href=#>Salir</a>
+
+            </nav>
+
+            <p>
+                Gestión Notas de alumnos
+            </p>
+
+        </Aside>
+
+        <Main>
+            <!-- <section>
+                <h4>Estadísticas</h4>
+
+                <form action="">
+
+                    <p>
+                        <label for="" class="label-blue-bold">Cant. alumnos por Ciclo Lectivo:</label>
+                        <label for="" id="lblTotalAlumCL">0</label>
+                    </p>
+
+                    <p>
+                        <label for="" class="label-blue-bold">Cant. alumnos por Materia:</label>
+                        <label for="" id="lblTotalAlumMat">0</label>
+                    </p>
+
+                    <p>
+                        <label for="" class="label-blue-bold">Cant. alumnos aprobados por materia:</label>
+                        <label for="" id="lblTotalAlumAprobxMat">0</label>
+                    </p>
+
+                    <p>
+                        <label for="" class="label-blue-bold">Cant. alumnos desaprobados por materia:</label>
+                        <label for="" id="lblTotalAlumDesapxMat">0</label>
+                    </p>
+
+                    <p>
+                        <label for="" class="label-blue-bold">Cant. alumnos promocionados por materia:</label>
+                        <label for="" id="lblTotalAlumPromxMat">0</label>
+                    </p>
+
+                </form>
+
+            </section> -->
+
+            <section>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Cant. alumnos por Ciclo Lectivo</th>
+                        </tr>
+                    </thead>
+                    <tbody id="totaAlum">
+
+                    </tbody>
+                </table>
+
+                <table>
+                    <th>Cant. alumnos Programacion</th>
+                    <th>Cant. alumnos aprobados Programacion</th>
+                    <th>Cant. alumnos desaprobados Programacion</th>
+                    <th>Cant. alumnos promocionados Programacion</th>
+
+                    <tbody id="totalProg">
+
+                    </tbody>
+                </table>
+
+                <table>
+                    <th>Cant. alumnos Bases de Datos</th>
+                    <th>Cant. alumnos aprobados Bases de Datos</th>
+                    <th>Cant. alumnos desaprobados Bases de Datos</th>
+                    <th>Cant. alumnos promocionados Bases de Datos</th>
+
+                    <tbody id="totalBD">
+
+                    </tbody>
+                </table>
+
+            </section>
+
+        </Main>
+
+        <script>
+
+            VerEstadisticas()
+
+            function VerEstadisticas() {
+                cont = 0
+
+                totalAlumCL = 0
+
+                cantProg = 0
+                cantBD = 0
+
+                cantAprobProg = 0
+                cantDesaprobProg = 0
+                cantPromProg = 0
+
+                cantAprobBD = 0
+                cantDesaprobBD = 0
+                cantPromBD = 0
+
+                let matricula = JSON.parse(localStorage.getItem("matricula")) || [];
+                let nombreYApellido = JSON.parse(localStorage.getItem("nombreYApellido")) || [];
+                let materia = JSON.parse(localStorage.getItem("materia")) || [];
+                let cicloLectivo = JSON.parse(localStorage.getItem("cicloLectivo")) || [];
+                let notaParcial1 = JSON.parse(localStorage.getItem("notaParcial1")) || [];
+                let notaParcial2 = JSON.parse(localStorage.getItem("notaParcial2")) || [];
+                let notaTrabajoPractico = JSON.parse(localStorage.getItem("notaTrabajoPractico")) || [];
+
+                for (i = 0; i < matricula.length; i++) {
+
+                    totalAlumCL++;
+
+                    switch (materia[i].toLowerCase()) {
+                        case 'programacion':
+                            cantProg++;
+                            if (notaParcial1[i] >= 4 && notaParcial2[i] >= 4 && notaTrabajoPractico[i] >= 4) {
+                                cantAprobProg++;
+                            }
+                            else {
+                                cantDesaprobProg++;
+                            }
+                            if (notaParcial1[i] >= 7 && notaParcial2[i] >= 7 && notaTrabajoPractico[i] >= 7) {
+                                cantPromProg++;
+                            }
+                            break;
+                        case 'bases de datos':
+                            cantBD++;
+                            if (notaParcial1[i] >= 4 && notaParcial2[i] >= 4 && notaTrabajoPractico[i] >= 4) {
+                                cantAprobBD++;
+                            }
+                            else {
+                                cantDesaprobBD++;
+                            }
+                            if (notaParcial1[i] >= 7 && notaParcial2[i] >= 7 && notaTrabajoPractico[i] >= 7) {
+                                cantPromBD++;
+                            }
+                            break;
+                    }
+                }
+
+                const vtbodytotalalum = document.getElementById("totaAlum")
+
+                vtbodytotalalum.innerHTML += `<tr>
+                                    <td>${totalAlumCL}</td>
+                                </tr>`
+
+                /*console.log(matricula, nombreYApellido, materia, cicloLectivo, notaParcial1, notaParcial2, notaTrabajoPractico)*/
+
+                const vtbodytotalprog = document.getElementById("totalProg")
+
+                vtbodytotalprog.innerHTML += `<tr>
+                            <td> ${cantProg}</td>
+                            <td>${cantAprobProg}</td>
+                            <td>${cantDesaprobProg}</td>
+                            <td>${cantPromProg}</td>
+                                    </tr>`
+
+                const vtbodytotalbd = document.getElementById("totalBD")
+
+                vtbodytotalbd.innerHTML += `<tr>
+                            <td> ${cantBD}</td>
+                            <td>${cantAprobBD}</td>
+                            <td>${cantDesaprobBD}</td>
+                            <td>${cantPromBD}</td>
+                                    </tr>`
+            }
+
+        </script>
+
+        <footer>
+            <h5>Institucion Cervantes - Tecnicatura Superior en Desarrollo Web</h5>
+        </footer>
+
+</body>
+
+</html>

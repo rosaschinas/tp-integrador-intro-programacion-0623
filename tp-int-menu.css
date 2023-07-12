@@ -1,0 +1,13 @@
+.menu a {
+    background-color: #2F5282;
+    color: white;
+    text-decoration: none;
+    padding: 20px;
+    display: block;
+    font-family: 'Open Sans', 'Helvetica Neue', sans-serif;
+  }
+  
+  .menu a:hover {
+    background-color: white;
+    color: #2F5282;
+  }
